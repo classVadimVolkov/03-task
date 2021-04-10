@@ -23,8 +23,8 @@ public class Solution1 {
 
         }
 
+        scheduledThreadPool.awaitTermination(2, TimeUnit.SECONDS);
         scheduledThreadPool.shutdown();
-        scheduledThreadPool.awaitTermination(3, TimeUnit.SECONDS);
 
         for (Map.Entry entry : usersWithCoupons.entrySet()) {
             System.out.println("Key: " + entry.getKey().toString() + " Value: "
@@ -46,11 +46,11 @@ public class Solution1 {
 
         @Override
         public void run() {
-            if (coupons.get() == 0) {
+            if (coupons.get() <= 0) {
                 Thread.currentThread().interrupt();
             }
             int userCoupons = usersWithCoupons.get(this) == null ? 0 : usersWithCoupons.get(this);
-            if (userCoupons != MAX_COUPONS_PER_USER && coupons.get() != 0) {
+            if (userCoupons != MAX_COUPONS_PER_USER && coupons.get() > 0) {
                 userCoupons++;
                 usersWithCoupons.put(this, userCoupons);
                 coupons.getAndDecrement();
