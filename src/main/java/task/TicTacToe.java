@@ -16,7 +16,7 @@ public class TicTacToe {
 
         while (hasMatrixMoreEmptyFields(matrix)) {
             if (hasWinner()) {
-                System.out.println("Winner!");
+                System.out.println("Computer wins!");
                 break;
             }
 
@@ -37,6 +37,11 @@ public class TicTacToe {
             }
 
             showMatrix(matrix);
+
+            if (hasWinner()) {
+                System.out.println("You win!");
+                break;
+            }
 
             boolean isComputerWrong = true;
             while (isComputerWrong) {
@@ -70,6 +75,7 @@ public class TicTacToe {
         }
 
         System.out.println("***************");
+
         System.out.println(matrixForView[0][0] + " | " + matrixForView[0][1] + " | " + matrixForView[0][2] + "\n" +
                 "---------" + "\n" +
                 matrixForView[1][0] + " | " + matrixForView[1][1] + " | " + matrixForView[1][2] + "\n" +
@@ -110,23 +116,11 @@ public class TicTacToe {
         return sign;
     }
 
-/*    private static String getUserSign(String userChoice) throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String sign = reader.readLine().toLowerCase();
-
-            if(!sign.equals(userChoice)) {
-                System.out.println("Error sign! Enter correct sign:");
-                sign = getUserSign(userChoice);
-            }
-
-        return sign;
-    }*/
-
     private static int getUserNumber() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         int number = Integer.parseInt(reader.readLine());
 
-        if(number != 1 && number != 2 && number != 3) {
+        if (number != 1 && number != 2 && number != 3) {
             System.out.println("Error! Enter 1, 2 or 3");
             number = getUserNumber();
         }
@@ -143,32 +137,54 @@ public class TicTacToe {
     }
 
     private static boolean hasWinner() {
-        if (hasMatrixMoreEmptyFields(matrix)) {
+
+        if (matrix[0][0] == null && matrix[1][1] == null && matrix[2][2] == null) {
+            return false;
+        }
+        if (matrix[0][2] == null && matrix[1][1] == null && matrix[2][0] == null) {
+            return false;
+        }
+        if (matrix[0][0] == null && matrix[0][1] == null && matrix[0][2] == null) {
+            return false;
+        }
+        if (matrix[1][0] == null && matrix[1][1] == null && matrix[1][2] == null) {
+            return false;
+        }
+        if (matrix[2][0] == null && matrix[2][1] == null && matrix[2][2] == null) {
+            return false;
+        }
+        if (matrix[0][0] == null && matrix[1][0] == null && matrix[2][0] == null) {
+            return false;
+        }
+        if (matrix[0][1] == null && matrix[1][1] == null && matrix[2][1] == null) {
+            return false;
+        }
+        if (matrix[0][2] == null && matrix[1][2] == null && matrix[2][2] == null) {
             return false;
         }
 
-        if (matrix[0][0].equals(matrix[1][1]) && matrix[0][1].equals(matrix[2][2])) {
+        if (matrix[0][0].equals(matrix[1][1]) && matrix[0][0].equals(matrix[2][2])) {
             return true;
         }
-        if (matrix[0][2].equals(matrix[1][1]) && matrix[0][1].equals(matrix[2][0])) {
+        if (matrix[0][2].equals(matrix[1][1]) && matrix[0][2].equals(matrix[2][0])) {
             return true;
         }
         if (matrix[0][0].equals(matrix[0][1]) && matrix[0][1].equals(matrix[0][2])) {
             return true;
         }
-        if (matrix[1][0].equals(matrix[1][1]) && matrix[0][1].equals(matrix[1][2])) {
+        if (matrix[1][0].equals(matrix[1][1]) && matrix[1][0].equals(matrix[1][2])) {
             return true;
         }
-        if (matrix[2][0].equals(matrix[2][1]) && matrix[0][1].equals(matrix[2][2])) {
+        if (matrix[2][0].equals(matrix[2][1]) && matrix[2][0].equals(matrix[2][2])) {
             return true;
         }
-        if (matrix[0][0].equals(matrix[1][0]) && matrix[0][1].equals(matrix[2][0])) {
+        if (matrix[0][0].equals(matrix[1][0]) && matrix[0][0].equals(matrix[2][0])) {
             return true;
         }
         if (matrix[0][1].equals(matrix[1][1]) && matrix[0][1].equals(matrix[2][1])) {
             return true;
         }
-        if (matrix[0][2].equals(matrix[1][2]) && matrix[0][1].equals(matrix[2][2])) {
+        if (matrix[0][2].equals(matrix[1][2]) && matrix[0][2].equals(matrix[2][2])) {
             return true;
         }
         return false;
@@ -195,9 +211,9 @@ public class TicTacToe {
 
         int limit = 0;
         for (int i = 0; i < emptyCells.length; i++) {
-                if (emptyCells[i][0] != null) {
-                    limit++;
-                }
+            if (emptyCells[i][0] != null) {
+                limit++;
+            }
         }
 
         row = (int) (Math.random() * limit);
