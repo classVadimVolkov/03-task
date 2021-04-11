@@ -44,9 +44,6 @@ public class Solution2 {
 
         @Override
         public void run() {
-            if (coupons.get() == 0) {
-                Thread.currentThread().interrupt();
-            }
             int userCoupons = usersWithCoupons.get(this) == null ? 0 : usersWithCoupons.get(this);
             while (userCoupons != MAX_COUPONS_PER_USER && coupons.get() != 0) {
                 userCoupons++;
