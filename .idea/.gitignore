@@ -6,4 +6,4 @@
 /dataSources.local.xml
 # Editor-based HTTP Client requests
 /httpRequests/
-/../../../../:\Project\lesson-03-multithreading\target/
+/target/
