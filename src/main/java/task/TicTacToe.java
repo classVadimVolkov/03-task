@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.util.Arrays;
 
 public class TicTacToe {
-    private static String[][] matrix = new String[3][3];
+    private static final String[][] matrix = new String[3][3];
 
     public static void main(String[] args) throws IOException {
         showInitialView();
@@ -14,13 +14,13 @@ public class TicTacToe {
         String userSign = chooseYourSign();
         String computerSign = getComputerSign(userSign);
 
-        while (hasMatrixMoreEmptyFields(matrix)) {
+        while (hasMatrixMoreEmptyFields()) {
             if (hasWinner()) {
                 System.out.println("Computer wins!");
                 break;
             }
 
-            showMatrix(matrix);
+            showMatrix();
 
             boolean isUserWrong = true;
             while (isUserWrong) {
@@ -36,7 +36,7 @@ public class TicTacToe {
                 }
             }
 
-            showMatrix(matrix);
+            showMatrix();
 
             if (hasWinner()) {
                 System.out.println("You win!");
@@ -57,13 +57,14 @@ public class TicTacToe {
     }
 
     private static void showInitialView() {
-        System.out.println("It's Tic Tac Toe! You will enter 'o' or 'x'" + "\n" +
-                "Then you should be enter ROW number(1, 2 or 3), where your sign must be." + "\n" +
-                "Then you should be enter COLUMN number(1, 2 or 3), where your sign must be.");
+        System.out.println("""
+                It's Tic Tac Toe! You will enter 'o' or 'x'
+                Then you should be enter ROW number(1, 2 or 3), where your sign must be.
+                Then you should be enter COLUMN number(1, 2 or 3), where your sign must be.""");
         System.out.println("Good luck!");
     }
 
-    private static void showMatrix(String[][] matrix) {
+    private static void showMatrix() {
         String[][] matrixForView = Arrays.stream(matrix).map(String[]::clone).toArray(String[][]::new);
 
         for (int i = 0; i < matrixForView.length; i++) {
@@ -83,10 +84,10 @@ public class TicTacToe {
                 matrixForView[2][0] + " | " + matrixForView[2][1] + " | " + matrixForView[2][2]);
     }
 
-    private static boolean hasMatrixMoreEmptyFields(String[][] matrix) {
-        for (int i = 0; i < matrix.length; i++) {
-            for (int j = 0; j < matrix[i].length; j++) {
-                if (matrix[i][j] == null) {
+    private static boolean hasMatrixMoreEmptyFields() {
+        for (String[] strings : matrix) {
+            for (String string : strings) {
+                if (string == null) {
                     return true;
                 }
             }
@@ -112,8 +113,7 @@ public class TicTacToe {
 
     private static String chooseYourSign() throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        String sign = reader.readLine().toLowerCase();
-        return sign;
+        return reader.readLine().toLowerCase();
     }
 
     private static int getUserNumber() throws IOException {
@@ -136,7 +136,7 @@ public class TicTacToe {
         matrix[row][column] = sign;
     }
 
-    private static boolean hasWinner() {
+    private static boolean hasWinner() throws NullPointerException{
 
         if (matrix[0][0] == null && matrix[1][1] == null && matrix[2][2] == null) {
             return false;
@@ -184,10 +184,8 @@ public class TicTacToe {
         if (matrix[0][1].equals(matrix[1][1]) && matrix[0][1].equals(matrix[2][1])) {
             return true;
         }
-        if (matrix[0][2].equals(matrix[1][2]) && matrix[0][2].equals(matrix[2][2])) {
-            return true;
-        }
-        return false;
+
+        return matrix[0][2].equals(matrix[1][2]) && matrix[0][2].equals(matrix[2][2]);
     }
 
     private static String getComputerSign(String userSign) {
@@ -210,8 +208,8 @@ public class TicTacToe {
         }
 
         int limit = 0;
-        for (int i = 0; i < emptyCells.length; i++) {
-            if (emptyCells[i][0] != null) {
+        for (Integer[] emptyCell : emptyCells) {
+            if (emptyCell[0] != null) {
                 limit++;
             }
         }
