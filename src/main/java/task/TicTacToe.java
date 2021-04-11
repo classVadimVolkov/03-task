@@ -12,6 +12,7 @@ public class TicTacToe {
         showInitialView();
         messageChooseYourSign();
         String userSign = chooseYourSign();
+        String computerSign = getComputerSign(userSign);
 
         while (hasMatrixMoreEmptyFields(matrix)) {
             if (hasWinner()) {
@@ -38,7 +39,6 @@ public class TicTacToe {
             showMatrix(matrix);
 
             boolean isComputerWrong = true;
-            String computerSign = getComputerSign(userSign);
             while (isComputerWrong) {
                 int[][] numbers = getComputerNumbers();
                 int computerRow = numbers[0][0];
@@ -70,7 +70,7 @@ public class TicTacToe {
         }
 
         System.out.println("***************");
-        System.out.println(matrixForView[0][0] + " | " + matrixForView[0][1] + " | " + matrixForView[0][1] + "\n" +
+        System.out.println(matrixForView[0][0] + " | " + matrixForView[0][1] + " | " + matrixForView[0][2] + "\n" +
                 "---------" + "\n" +
                 matrixForView[1][0] + " | " + matrixForView[1][1] + " | " + matrixForView[1][2] + "\n" +
                 "---------" + "\n" +
@@ -89,7 +89,7 @@ public class TicTacToe {
     }
 
     private static void messageChooseYourSign() {
-        System.out.println("Choose 'o' or 'x':");
+        System.out.println("Please, choose 'o' or 'x':");
     }
 
     private static void messagePutRowNumber() {
@@ -202,7 +202,7 @@ public class TicTacToe {
 
         row = (int) (Math.random() * limit);
         int[][] rowAndNumber = new int[1][2];
-        rowAndNumber[0][0] = row;
+        rowAndNumber[0][0] = emptyCells[row][0];
         rowAndNumber[0][1] = emptyCells[row][1];
         return rowAndNumber;
     }
